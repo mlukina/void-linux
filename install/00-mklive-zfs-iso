@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Makes a custom Void Linux ISO image with ZFS support and tools
+# Note: You need to be in a Void Linux environment for this to work
+
+current_date=$(date +%Y-%m-%d-%H.%M.%S)
+build_dir="$HOME"/void-mklive
+
+# Checks to see if the build directory already exists. If it does, update it. 
+# If not, clone it. Lastly, it sets up the build environment in either case. 
+if [ -d "$build_dir" ]; then  
+    cd "$build_dir" || exit
+    git pull
+    make
+else
+    cd "$HOME" || exit    
+    git clone https://github.com/void-linux/void-mklive.git
+    cd "$build_dir" || exit
+    make
+fi
+
+sudo ./mklive.sh                                            \
+    -l en_CA.UTF8                                           \
+    -o void-zfs-"$current_date".iso                         \
+    -p "git gptfdisk lynx parted vim zfs"                   \
+    -r https://mirrors.servercentral.com/voidlinux/current  \
+    -S "dhcpcd"                                             \
+    -T "Void Linux ZFS"
