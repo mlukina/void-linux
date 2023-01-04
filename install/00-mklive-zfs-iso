@@ -24,5 +24,5 @@ sudo ./mklive.sh                                            \
     -o void-zfs-"$current_date".iso                         \
     -p "git gptfdisk lynx parted vim zfs"                   \
     -r https://mirrors.servercentral.com/voidlinux/current  \
-    -S "dhcpcd"                                             \
+    -S "dhcpcd sshd"                                        \
     -T "Void Linux ZFS"
